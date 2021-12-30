@@ -1,0 +1,25 @@
+{
+	"name": "sinaecom",
+	"version": "1.0.0",
+	"description": "sinaecom is a ecommerce website",
+	"main": "server.js",
+	"type": "module",
+	"scripts": {
+		"test": "node backend/server.js",
+		"server": "nodemon backend/server.js",
+		"client": "npm start --prefix frontend",
+		"dev": "concurrently \"npm run server\" \"npm run client\""
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"colors": "^1.4.0",
+		"dotenv": "^10.0.0",
+		"express": "^4.17.2",
+		"morgan": "^1.10.0"
+	},
+	"devDependencies": {
+		"concurrently": "^6.5.1",
+		"nodemon": "^2.0.15"
+	}
+}
