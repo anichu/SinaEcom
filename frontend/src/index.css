@@ -58,8 +58,9 @@ a {
 	margin: 0px 5px;
 	outline: none;
 	border: 1px solid black;
-	color: black;
-	background: white;
+	color: white;
+	background: black;
+	border-radius: 10px;
 }
 
 .search-box button:hover {
