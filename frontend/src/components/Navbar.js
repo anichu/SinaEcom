@@ -2,9 +2,9 @@ import React from "react";
 
 const Navbar = () => {
 	return (
-		<nav className="navbar navbar-expand-lg navbar-light bg-light">
-			<a className="navbar-brand" href="!#">
-				Navbar
+		<nav className="navbar navbar-expand-lg navbar-light bg-light position-fixed">
+			<a className="navbar-brand px-2" href="!#">
+				SinaEcom
 			</a>
 			<button
 				className="navbar-toggler"
@@ -17,24 +17,35 @@ const Navbar = () => {
 			>
 				<span className="navbar-toggler-icon"></span>
 			</button>
+
 			<div className="collapse navbar-collapse" id="navbarNavDropdown">
-				<ul className="navbar-nav">
-					<li className="nav-item active">
-						<a className="nav-link" href="!#">
-							Home <span className="sr-only">(current)</span>
-						</a>
-					</li>
+				<form class="search-box">
+					<input type="search" name="" id="" placeholder="search..." />
+					<button type="">search</button>
+				</form>
+				<ul className="navbar-nav ml-auto">
 					<li className="nav-item">
-						<a className="nav-link" href="!#">
-							Features
+						<a className="nav-link" href="!#" style={{ display: "flex" }}>
+							<span>
+								<i
+									class="fas fa-cart-arrow-down"
+									style={{ fontSize: "20px" }}
+								></i>
+							</span>
+							Cart
 						</a>
 					</li>
+
 					<li className="nav-item">
-						<a className="nav-link" href="!#">
-							Pricing
+						<a className="nav-link" href="!#" style={{ display: "flex" }}>
+							<span>
+								<i class="fas fa-sign-in-alt" style={{ fontSize: "20px" }}></i>
+							</span>
+							SignIn
 						</a>
 					</li>
-					<li className="nav-item dropdown">
+
+					<li className="nav-item dropdown mr-5">
 						<a
 							className="nav-link dropdown-toggle"
 							href="!#"
@@ -44,20 +55,17 @@ const Navbar = () => {
 							aria-haspopup="true"
 							aria-expanded="false"
 						>
-							Dropdown link
+							User
 						</a>
 						<div
 							className="dropdown-menu"
 							aria-labelledby="navbarDropdownMenuLink"
 						>
 							<a className="dropdown-item" href="!#">
-								Action
+								Profile
 							</a>
 							<a className="dropdown-item" href="!#">
-								Another action
-							</a>
-							<a className="dropdown-item" href="!#">
-								Something else here
+								Logout
 							</a>
 						</div>
 					</li>
