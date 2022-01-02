@@ -1,5 +1,11 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useSelector, useDispatch } from "react-redux";
+import { register } from "../actions/userActions";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+
 const SignupScreen = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
@@ -22,13 +28,30 @@ const SignupScreen = () => {
 		!confirmPasswordIsValid && confirmPasswordTouch;
 
 	let formIsValid = false;
-	if (nameIsValid && emailIsValid) {
+	if (
+		nameIsValid &&
+		emailIsValid &&
+		passwordIsValid &&
+		confirmPasswordIsValid
+	) {
 		formIsValid = true;
 	} else {
 		formIsValid = false;
 	}
+	const navigate = useNavigate();
+	const userSignup = useSelector((state) => state.userSignup);
+	const { userInfo, error, loading } = userSignup;
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (userInfo) {
+			console.log(userInfo);
+			navigate("/");
+		}
+	}, [navigate, userInfo]);
 	const submitHandler = (e) => {
 		e.preventDefault();
+		dispatch(register(name, email, password));
 	};
 	const nameBlurHandler = (e) => {
 		setNameTouch(true);
@@ -59,14 +82,13 @@ const SignupScreen = () => {
 		setConfirmPassword(e.target.value);
 	};
 	const classesName =
-		!nameIsInvalid &&
-		!emailIsInvalid &&
-		!passwordIsInvalid &&
-		!confirmPasswordIsInvalid
+		!nameIsInvalid && !emailIsInvalid && !passwordIsInvalid
 			? "form-controls"
 			: "form-controls invalid";
 	return (
 		<form onSubmit={submitHandler} className="signup-box">
+			{loading && <Loader />}
+			{error && <Message color="danger">{error}</Message>}
 			<div className="form-container">
 				<h1>Register</h1>
 				<div className={classesName}>

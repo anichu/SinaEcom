@@ -1,12 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { USER_REGISTER_RESET } from "../constants/userConstants";
 
 const Navbar = () => {
+	const dispatch = useDispatch();
+	const userSignup = useSelector((state) => state.userSignup);
+	const { userInfo } = userSignup;
+
+	const logoutHandler = () => {
+		dispatch({
+			type: USER_REGISTER_RESET,
+		});
+	};
+
 	return (
 		<nav className="navbar navbar-expand-lg navbar-light bg-light">
-			<a className="navbar-brand px-2" href="!#">
+			<Link className="navbar-brand px-2" to="/">
 				SinaEcom
-			</a>
+			</Link>
 			<button
 				className="navbar-toggler"
 				type="button"
@@ -20,7 +32,7 @@ const Navbar = () => {
 			</button>
 
 			<div className="collapse navbar-collapse" id="navbarNavDropdown">
-				<form class="search-box">
+				<form className="search-box">
 					<input type="search" name="" id="" placeholder="search..." />
 					<button type="">search</button>
 				</form>
@@ -29,7 +41,7 @@ const Navbar = () => {
 						<a className="nav-link" href="!#" style={{ display: "flex" }}>
 							<span>
 								<i
-									class="fas fa-cart-arrow-down"
+									className="fas fa-cart-arrow-down"
 									style={{ fontSize: "20px" }}
 								></i>
 							</span>
@@ -37,39 +49,52 @@ const Navbar = () => {
 						</a>
 					</li>
 
-					<li className="nav-item">
-						<Link className="nav-link" to="/login" style={{ display: "flex" }}>
-							<span>
-								<i class="fas fa-sign-in-alt" style={{ fontSize: "20px" }}></i>
-							</span>
-							SignIn
-						</Link>
-					</li>
-
-					<li className="nav-item dropdown mr-5">
-						<a
-							className="nav-link dropdown-toggle"
-							href="!#"
-							id="navbarDropdownMenuLink"
-							role="button"
-							data-toggle="dropdown"
-							aria-haspopup="true"
-							aria-expanded="false"
-						>
-							User
-						</a>
-						<div
-							className="dropdown-menu"
-							aria-labelledby="navbarDropdownMenuLink"
-						>
-							<a className="dropdown-item" href="!#">
-								Profile
+					{!userInfo ? (
+						<li className="nav-item mr-4">
+							<Link
+								className="nav-link"
+								to="/login"
+								style={{ display: "flex" }}
+							>
+								<span>
+									<i
+										className="fas fa-sign-in-alt"
+										style={{ fontSize: "20px" }}
+									></i>
+								</span>
+								SignIn
+							</Link>
+						</li>
+					) : (
+						<li className="nav-item dropdown mr-5">
+							<a
+								className="nav-link dropdown-toggle"
+								href="!#"
+								id="navbarDropdownMenuLink"
+								role="button"
+								data-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							>
+								{userInfo.name}
 							</a>
-							<a className="dropdown-item" href="!#">
-								Logout
-							</a>
-						</div>
-					</li>
+							<div
+								className="dropdown-menu"
+								aria-labelledby="navbarDropdownMenuLink"
+							>
+								<a className="dropdown-item" href="!#">
+									Profile
+								</a>
+								<p
+									className="dropdown-item"
+									onClick={logoutHandler}
+									style={{ cursor: "pointer" }}
+								>
+									Logout
+								</p>
+							</div>
+						</li>
+					)}
 				</ul>
 			</div>
 		</nav>

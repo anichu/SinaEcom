@@ -131,6 +131,15 @@ a {
 	background-color: rgb(26, 22, 22);
 }
 
+button:disabled,
+button:disabled:hover,
+button:disabled:active {
+	background-color: #ccc;
+	color: #292929;
+	border-color: #ccc;
+	cursor: not-allowed;
+}
+
 .invalid input {
 	border: 1px solid #b40e0e;
 	background-color: #fddddd;
@@ -143,6 +152,12 @@ a {
 
 .error-text {
 	color: #b40e0e;
+}
+.alert button {
+	outline: none !important;
+	border: none !important;
+	margin-right: -5px !important;
+	margin-top: -5px !important;
 }
 
 @media (max-width: 522px) {
@@ -157,6 +172,8 @@ a {
 		padding: 4px 3px;
 	}
 }
+
+/* loader */
 
 @media (max-width: 420px) {
 	.form-container {

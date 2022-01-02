@@ -3,6 +3,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import SigninScreen from "./screens/SigninScreen";
 import SignupScreen from "./screens/SignupScreen";
+import HomeScreen from "./screens/HomeScreen";
 
 function App() {
 	return (
@@ -10,6 +11,9 @@ function App() {
 			<Navbar className="m-3" />
 			<main className="py-3">
 				<div className="container">
+					<Routes>
+						<Route exact path="/" element={<HomeScreen />} />
+					</Routes>
 					<Routes>
 						<Route exact path="/login" element={<SigninScreen />} />
 					</Routes>
