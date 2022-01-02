@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
 	return (
-		<nav className="navbar navbar-expand-lg navbar-light bg-light position-fixed">
+		<nav className="navbar navbar-expand-lg navbar-light bg-light">
 			<a className="navbar-brand px-2" href="!#">
 				SinaEcom
 			</a>
@@ -37,12 +38,12 @@ const Navbar = () => {
 					</li>
 
 					<li className="nav-item">
-						<a className="nav-link" href="!#" style={{ display: "flex" }}>
+						<Link className="nav-link" to="/login" style={{ display: "flex" }}>
 							<span>
 								<i class="fas fa-sign-in-alt" style={{ fontSize: "20px" }}></i>
 							</span>
 							SignIn
-						</a>
+						</Link>
 					</li>
 
 					<li className="nav-item dropdown mr-5">

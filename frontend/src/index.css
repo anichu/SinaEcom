@@ -2,7 +2,7 @@
 * {
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box;
+	box-sizing: border-box !important;
 }
 
 body {
@@ -13,11 +13,15 @@ a {
 	color: black !important;
 }
 
-.bg-light {
+.navbar-light {
 	min-height: 15vh !important;
 	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
 		rgba(60, 64, 67, 0.15) 0px 1px 3px 1px !important;
-	width: 100%;
+	max-width: 100% !important;
+	position: sticky !important;
+	top: 0px;
+	left: 0px;
+	right: 0px;
 }
 .navbar-brand {
 	font-size: 25px;
@@ -43,9 +47,9 @@ a {
 	width: 70%;
 	outline: 0;
 	border: 1px solid white;
+	border-radius: 10px;
 	padding: 10px 20px;
 	transition: 1s;
-	clear: both;
 }
 .search-box input:hover {
 	border: 1px solid black;
@@ -70,4 +74,99 @@ a {
 
 .dropdown-menu {
 	min-width: 50px !important;
+}
+
+/* form design */
+
+.signup-box {
+	display: flex;
+	min-height: 70vh;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+.form-controls input,
+.form-controls label {
+	display: block;
+	width: 400px;
+	padding: 5px 4px;
+}
+
+.form-controls input:focus {
+	outline: none;
+	border-color: #240370;
+	background-color: #e0d4fd;
+}
+.form-container {
+	width: 500px;
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+		rgba(60, 64, 67, 0.15) 0px 1px 3px 1px !important;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 64vh;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+
+.form-actions {
+	text-align: right;
+}
+
+.form-actions button {
+	margin: 5px 0px;
+	padding: 5px 10px;
+	color: white;
+	background-color: black;
+	cursor: pointer;
+	border-radius: 10px;
+}
+
+.form-actions button:active,
+.form-actions button:focus,
+.form-actions button:hover {
+	background-color: rgb(26, 22, 22);
+}
+
+.invalid input {
+	border: 1px solid #b40e0e;
+	background-color: #fddddd;
+}
+
+.invalid input:focus {
+	border-color: #ff8800;
+	background-color: #fbe8d2;
+}
+
+.error-text {
+	color: #b40e0e;
+}
+
+@media (max-width: 522px) {
+	.form-container {
+		width: 400px;
+	}
+
+	.form-controls input,
+	.form-controls label {
+		display: block;
+		width: 300px;
+		padding: 4px 3px;
+	}
+}
+
+@media (max-width: 420px) {
+	.form-container {
+		width: 300px;
+	}
+
+	.form-controls input,
+	.form-controls label {
+		display: block;
+		width: 250px;
+		padding: 3px 2px;
+	}
 }
