@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../actions/userActions";
 import Loader from "react-spinners/RingLoader";
 import Message from "../components/Message";
 
@@ -13,11 +14,18 @@ const SigninScreen = () => {
 	const passwordIsValid = password.length >= 4;
 	const emailIsInvalid = !emailIsValid && emailTouch;
 	const passwordIsInvalid = !passwordIsValid && passwordTouch;
+	const navigate = useNavigate();
+	const userLogin = useSelector((state) => state.userLogin);
+	const { error, loading, success } = userLogin;
 
-	// const userSignup = useSelector((state) => state.userSignup);
-	// const { userInfo } = userSignup;
-	// if (userInfo) {
-	// }
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (success) {
+			window.location.href = "/";
+		}
+	}, [success, navigate]);
+
 	let formIsValid = false;
 	if (emailIsValid && passwordIsValid) {
 		formIsValid = true;
@@ -26,6 +34,7 @@ const SigninScreen = () => {
 	}
 	const submitHandler = (e) => {
 		e.preventDefault();
+		dispatch(login(email, password));
 	};
 
 	const emailBlurHandler = (e) => {
@@ -50,8 +59,10 @@ const SigninScreen = () => {
 	return (
 		<>
 			<form onSubmit={submitHandler} className="signup-box">
+				{loading && <Loader />}
 				<div className="form-container">
 					<h1>Login</h1>
+					{error && <Message color="danger">{error}</Message>}
 					<div className={classesName}>
 						<label htmlFor="email">Your Email</label>
 						<input
