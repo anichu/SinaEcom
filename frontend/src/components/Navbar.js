@@ -5,7 +5,6 @@ import { USER_REGISTER_RESET } from "../constants/userConstants";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 	const userSignup = useSelector((state) => state.userSignup);
 	const { userInfo } = userSignup;
 	const logoutHandler = () => {
@@ -40,7 +39,7 @@ const Navbar = () => {
 				<ul className="navbar-nav ml-auto">
 					<li className="nav-item">
 						<a className="nav-link" href="!#" style={{ display: "flex" }}>
-							<span>
+							<span className="mr-1 ml-2">
 								<i
 									className="fas fa-cart-arrow-down"
 									style={{ fontSize: "20px" }}
@@ -57,7 +56,7 @@ const Navbar = () => {
 								to="/login"
 								style={{ display: "flex" }}
 							>
-								<span>
+								<span className="mr-1 ml-1">
 									<i
 										className="fas fa-sign-in-alt"
 										style={{ fontSize: "20px" }}
@@ -67,34 +66,55 @@ const Navbar = () => {
 							</Link>
 						</li>
 					) : (
-						<li className="nav-item dropdown mr-5">
-							<a
-								className="nav-link dropdown-toggle"
-								href="!#"
-								id="navbarDropdownMenuLink"
-								role="button"
-								data-toggle="dropdown"
-								aria-haspopup="true"
-								aria-expanded="false"
-							>
-								{userInfo.name}
-							</a>
-							<div
-								className="dropdown-menu"
-								aria-labelledby="navbarDropdownMenuLink"
-							>
-								<a className="dropdown-item" href="!#">
-									Profile
-								</a>
-								<p
-									className="dropdown-item"
-									onClick={logoutHandler}
-									style={{ cursor: "pointer" }}
+						<>
+							<li className="nav-item dropdown mr-2">
+								<a
+									className="nav-link dropdown-toggle"
+									href="!#"
+									id="navbarDropdownMenuLink"
+									role="button"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
 								>
-									Logout
-								</p>
-							</div>
-						</li>
+									<span className="mr-1 ml-1">
+										<i className="fas fa-user"></i>
+									</span>
+									{userInfo.name}
+								</a>
+								<div
+									className="dropdown-menu"
+									aria-labelledby="navbarDropdownMenuLink"
+								>
+									<a className="dropdown-item" href="!#">
+										<i className="fas fa-male mr-1"></i>
+										Profile
+									</a>
+									<p
+										className="dropdown-item"
+										onClick={logoutHandler}
+										style={{ cursor: "pointer" }}
+									>
+										<i class="fas fa-sign-out-alt mr-1"></i>
+										Logout
+									</p>
+								</div>
+							</li>
+							{userInfo.isAdmin && (
+								<li className="nav-item mr-3">
+									<Link
+										className="nav-link"
+										to="/admin"
+										style={{ display: "flex" }}
+									>
+										<span className="mr-1 ml-1">
+											<i class="fas fa-users-cog"></i>
+										</span>
+										admin
+									</Link>
+								</li>
+							)}
+						</>
 					)}
 				</ul>
 			</div>

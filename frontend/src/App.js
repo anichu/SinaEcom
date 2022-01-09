@@ -4,13 +4,14 @@ import Navbar from "./components/Navbar";
 import SigninScreen from "./screens/SigninScreen";
 import SignupScreen from "./screens/SignupScreen";
 import HomeScreen from "./screens/HomeScreen";
+import AdminScreen from "./screens/AdminScreen";
 
 function App() {
 	return (
 		<Router>
 			<Navbar className="m-3" />
-			<main className="py-3">
-				<div className="container">
+			<main className="p-3">
+				<div className="">
 					<Routes>
 						<Route exact path="/" element={<HomeScreen />} />
 					</Routes>
@@ -19,6 +20,9 @@ function App() {
 					</Routes>
 					<Routes>
 						<Route exact path="/signup" element={<SignupScreen />} />
+					</Routes>
+					<Routes>
+						<Route exact path="/admin" element={<AdminScreen />} />
 					</Routes>
 				</div>
 			</main>
