@@ -34,3 +34,15 @@ export const createProduct = asyncHandler(async (req, res) => {
 	const createProduct = await product.save();
 	res.status(201).json(createProduct);
 });
+
+//@desc Fetch all products...
+//@route GET /api/products....
+//@access Public
+
+export const getProducts = asyncHandler(async (req, res) => {
+	const products = await Product.find()
+		.populate("user", "name")
+		.sort({ createdAt: -1 });
+
+	res.json(products);
+});

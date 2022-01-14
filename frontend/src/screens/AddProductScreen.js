@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -39,6 +39,8 @@ const AddProductScreen = () => {
 	const priceIsInvalid = !priceIsValid && priceTouch;
 	const countInStockIsInvalid = !countInStockIsValid && countInStockTouch;
 
+	const fileRef = useRef();
+
 	let formIsValid = false;
 	if (
 		nameIsValid &&
@@ -75,6 +77,13 @@ const AddProductScreen = () => {
 				image: [{ name: image }],
 			})
 		);
+		setName("");
+		setPrice("");
+		setCategory("");
+		setDescription("");
+		setcountInStock("");
+		setBrand("");
+		fileRef.value = "";
 	};
 	const nameBlurHandler = (e) => {
 		setNameTouch(true);
@@ -242,7 +251,13 @@ const AddProductScreen = () => {
 
 			<div className={classesName}>
 				<label htmlFor="image">image</label>
-				<input type="file" id="image" onChange={imageChange} cols={20} />
+				<input
+					type="file"
+					id="image"
+					ref={fileRef}
+					onChange={imageChange}
+					cols={20}
+				/>
 			</div>
 
 			<div className="add-product-btn-box">

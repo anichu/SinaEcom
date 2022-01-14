@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import AddProductScreen from "./AddProductScreen";
+import ProductScreen from "./admin/ProductScreen";
 
 const AdminScreen = () => {
 	const [users, setUsers] = useState(false);
 	const [products, setProducts] = useState(false);
 	const [addUsers, setAddUsers] = useState(false);
 	const [addProducts, setAddProducts] = useState(false);
+	const [showProducts, setShowProducts] = useState(false);
 	const rightSide = {
 		display: "flex",
 		justifyContent: "center",
@@ -73,16 +75,27 @@ const AdminScreen = () => {
 
 					<div class="collapse multi-collapse" id="multiCollapseExample">
 						<ul className="ml-3" style={{ borderLeft: "2px solid black" }}>
-							<li className="ml-1 pb-1">
-								<a href="!#">products</a>
+							<li className="ml-1 mb-2">
+								<span
+									style={{ cursor: "pointer" }}
+									onClick={() => {
+										setShowProducts(true);
+										setAddProducts(false);
+									}}
+								>
+									products
+								</span>
 							</li>
 							<li className="ml-1">
-								<p
-									onClick={() => setAddProducts(!addProducts)}
+								<span
+									onClick={() => {
+										setAddProducts(true);
+										setShowProducts(false);
+									}}
 									style={{ cursor: "pointer" }}
 								>
 									Add Products
-								</p>
+								</span>
 							</li>
 						</ul>
 					</div>
@@ -97,7 +110,7 @@ const AdminScreen = () => {
 			</div>
 			<div className="right-side" style={rightSide}>
 				{addProducts && <AddProductScreen />}
-				{!addProducts && <h1> admin screen</h1>}
+				{showProducts && <ProductScreen />}
 			</div>
 		</div>
 	);

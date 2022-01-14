@@ -7,7 +7,7 @@ import {
 	ADD_PRODUCT_FAIL,
 } from "../constants/productConstants";
 
-export const productReducer = (state = {}, action) => {
+export const getProductReducer = (state = { products: null }, action) => {
 	switch (action.type) {
 		case PRODUCT_REQUEST:
 			return {

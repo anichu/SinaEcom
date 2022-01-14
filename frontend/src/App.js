@@ -5,6 +5,7 @@ import SigninScreen from "./screens/SigninScreen";
 import SignupScreen from "./screens/SignupScreen";
 import HomeScreen from "./screens/HomeScreen";
 import AdminScreen from "./screens/AdminScreen";
+import ProductScreen from "./screens/admin/ProductScreen";
 
 function App() {
 	return (

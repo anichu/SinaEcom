@@ -8,26 +8,28 @@ import {
 	ADD_PRODUCT_SUCCESS,
 } from "../constants/productConstants";
 
-export const product = () => async (dispatch) => {
+export const getProduct = () => async (dispatch, getState) => {
 	try {
 		dispatch({ type: PRODUCT_REQUEST });
+		const {
+			userSignup: { userInfo },
+		} = getState();
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
+				Authorization: `Bearer ${userInfo.token}`,
 			},
 		};
 
-		const { data } = await axios.post(
-			"http://localhost:5000/api/users",
-			{},
+		const { data } = await axios.get(
+			"http://localhost:5000/api/products",
 			config
 		);
+
 		dispatch({
 			type: PRODUCT_SUCCESS,
 			payload: data,
 		});
-
-		localStorage.setItem("userDetails", JSON.stringify(data));
 	} catch (err) {
 		dispatch({
 			type: PRODUCT_FAIL,
@@ -45,7 +47,7 @@ export const addProduct = (add) => async (dispatch, getState) => {
 		const {
 			userSignup: { userInfo },
 		} = getState();
-		console.log(userInfo.token);
+		// console.log(userInfo.token);
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
