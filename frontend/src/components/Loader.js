@@ -7,13 +7,7 @@ const Loader = () => {
 
 	return (
 		<div className="loader">
-			<RingLoader
-				color="red"
-				css=""
-				style={{ textAlign: "center" }}
-				loading={loading}
-				size={100}
-			/>
+			<RingLoader loading={loading} size={100} />
 		</div>
 	);
 };

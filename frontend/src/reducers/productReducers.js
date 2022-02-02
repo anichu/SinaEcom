@@ -5,6 +5,13 @@ import {
 	ADD_PRODUCT_REQUEST,
 	ADD_PRODUCT_SUCCESS,
 	ADD_PRODUCT_FAIL,
+	PRODUCT_SINGLE_FAIL,
+	PRODUCT_SINGLE_REQUEST,
+	PRODUCT_SINGLE_SUCCESS,
+	PRODUCT_SINGLE_RESET,
+	EDIT_PRODUCT_REQUEST,
+	EDIT_PRODUCT_SUCCESS,
+	EDIT_PRODUCT_FAIL,
 } from "../constants/productConstants";
 
 export const getProductReducer = (state = { products: null }, action) => {
@@ -40,6 +47,50 @@ export const addProductReducer = (state = {}, action) => {
 				success: true,
 			};
 		case ADD_PRODUCT_FAIL:
+			return {
+				loading: false,
+				error: action.payload,
+			};
+		default:
+			return state;
+	}
+};
+
+export const getSingleProductReducer = (state = { product: null }, action) => {
+	switch (action.type) {
+		case PRODUCT_SINGLE_REQUEST:
+			return {
+				loading: true,
+			};
+		case PRODUCT_SINGLE_SUCCESS:
+			return {
+				loading: false,
+				product: action.payload,
+			};
+		case PRODUCT_SINGLE_FAIL:
+			return {
+				loading: false,
+				error: action.payload,
+			};
+		case PRODUCT_SINGLE_RESET:
+			return {};
+		default:
+			return state;
+	}
+};
+
+export const editProductReducer = (state = {}, action) => {
+	switch (action.type) {
+		case EDIT_PRODUCT_REQUEST:
+			return {
+				loading: true,
+			};
+		case EDIT_PRODUCT_SUCCESS:
+			return {
+				loading: false,
+				success: true,
+			};
+		case EDIT_PRODUCT_FAIL:
 			return {
 				loading: false,
 				error: action.payload,

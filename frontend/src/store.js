@@ -5,19 +5,32 @@ import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
 import {
 	addProductReducer,
 	getProductReducer,
+	getSingleProductReducer,
+	editProductReducer,
 } from "./reducers/productReducers";
+import { cartReducer } from "./reducers/cartReducers";
 const reducer = combineReducers({
 	userSignup: userRegisterReducer,
 	userLogin: userLoginReducer,
+	cart: cartReducer,
 	addProduct: addProductReducer,
+	editProduct: editProductReducer,
 	getProducts: getProductReducer,
+	getSingleProduct: getSingleProductReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userDetails")
 	? JSON.parse(localStorage.getItem("userDetails"))
 	: null;
 
+const cartItemsFromStorage = localStorage.getItem("cartItems")
+	? JSON.parse(localStorage.getItem("cartItems"))
+	: [];
+
 const initialState = {
+	cart: {
+		cartItems: cartItemsFromStorage,
+	},
 	userSignup: {
 		userInfo: userInfoFromStorage,
 	},

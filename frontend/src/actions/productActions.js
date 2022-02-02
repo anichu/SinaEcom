@@ -6,6 +6,12 @@ import {
 	ADD_PRODUCT_FAIL,
 	ADD_PRODUCT_REQUEST,
 	ADD_PRODUCT_SUCCESS,
+	PRODUCT_SINGLE_FAIL,
+	PRODUCT_SINGLE_REQUEST,
+	PRODUCT_SINGLE_SUCCESS,
+	EDIT_PRODUCT_FAIL,
+	EDIT_PRODUCT_REQUEST,
+	EDIT_PRODUCT_SUCCESS,
 } from "../constants/productConstants";
 
 export const getProduct = () => async (dispatch, getState) => {
@@ -41,6 +47,39 @@ export const getProduct = () => async (dispatch, getState) => {
 	}
 };
 
+export const getSingleProduct = (id) => async (dispatch, getState) => {
+	try {
+		dispatch({ type: PRODUCT_SINGLE_REQUEST });
+		const {
+			userSignup: { userInfo },
+		} = getState();
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${userInfo.token}`,
+			},
+		};
+
+		const { data } = await axios.get(
+			`http://localhost:5000/api/products/${id}`,
+			config
+		);
+
+		dispatch({
+			type: PRODUCT_SINGLE_SUCCESS,
+			payload: data,
+		});
+	} catch (err) {
+		dispatch({
+			type: PRODUCT_SINGLE_FAIL,
+			payload:
+				err.response && err.response.data.message
+					? err.response.data.message
+					: err.message,
+		});
+	}
+};
+
 export const addProduct = (add) => async (dispatch, getState) => {
 	try {
 		dispatch({ type: ADD_PRODUCT_REQUEST });
@@ -67,6 +106,41 @@ export const addProduct = (add) => async (dispatch, getState) => {
 	} catch (err) {
 		dispatch({
 			type: ADD_PRODUCT_FAIL,
+			payload:
+				err.response && err.response.data.message
+					? err.response.data.message
+					: err.message,
+		});
+	}
+};
+
+export const editProduct = (editId, edit) => async (dispatch, getState) => {
+	try {
+		dispatch({ type: EDIT_PRODUCT_REQUEST });
+		const {
+			userSignup: { userInfo },
+		} = getState();
+		// console.log(userInfo.token);
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${userInfo.token}`,
+			},
+		};
+
+		const { data } = await axios.put(
+			`http://localhost:5000/api/products/${editId}`,
+			edit,
+			config
+		);
+
+		dispatch({
+			type: EDIT_PRODUCT_SUCCESS,
+			payload: data,
+		});
+	} catch (err) {
+		dispatch({
+			type: EDIT_PRODUCT_FAIL,
 			payload:
 				err.response && err.response.data.message
 					? err.response.data.message

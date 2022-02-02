@@ -1,29 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Rating from "./Rating";
+import "./Card.css";
 
 const Product = ({ product }) => {
 	return (
 		<div className="card">
+			<Link to={`/product/${product._id}`}>
+				{product.image.map((img) => (
+					<img
+						src={img.name}
+						className="card-img-top img-fluid"
+						alt={product.name}
+						key={img.name}
+					/>
+				))}
+			</Link>
 			<div className="card-body">
-				<Link to="/">
-					{product.image.map((img) => (
-						<img
-							src={img.name}
-							className="card-img-bottom img-fluid"
-							alt={product.name}
-							key={img.name}
-						/>
-					))}
+				<Link to={`/product/${product._id}`}>
+					<h5 className="card-title pt-2">{`${product.name.substring(0, 40)} ${
+						product.name.length > 40 ? " ...." : ""
+					}`}</h5>
 				</Link>
-				<Link to="/id">
-					<h5 className="card-title pt-2">{product.name}</h5>
-				</Link>
+				<p className="card-text">
+					<Rating rating={product.rating} numReviews={product.numReviews} />
+				</p>
 				<p className="card-text">${product.price}</p>
-				<p className="card-text">💕💕💕💕(10 reviews)</p>
-				<div className="card-button">
-					<button>Add to Cart</button>
-					<button>view Details</button>
-				</div>
 			</div>
 		</div>
 	);

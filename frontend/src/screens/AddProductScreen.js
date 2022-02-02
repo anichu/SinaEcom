@@ -1,14 +1,18 @@
 import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { useSelector, useDispatch } from "react-redux";
 import { register } from "../actions/userActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import { Editor, EditorState } from "draft-js";
+import "draft-js/dist/Draft.css";
 import axios from "axios";
 import { addProduct } from "../actions/productActions";
 
 const AddProductScreen = () => {
+	const [editorState, setEditorState] = React.useState(() =>
+		EditorState.createEmpty()
+	);
 	const [name, setName] = useState("");
 	const [price, setPrice] = useState(0);
 	const [brand, setBrand] = useState("");
@@ -29,7 +33,6 @@ const AddProductScreen = () => {
 	const categoryIsValid = category.trim() !== "";
 	const descriptionIsValid = description.trim() !== "";
 	const priceIsValid = price !== 0;
-
 	const countInStockIsValid = countInStock !== 0;
 	const nameIsInvalid = !nameIsValid && nameTouch;
 
@@ -159,6 +162,7 @@ const AddProductScreen = () => {
 		!priceIsInvalid
 			? "form-controls"
 			: "form-controls invalid";
+	console.log(editorState);
 	return (
 		<form action="" onSubmit={submitHandler}>
 			<div style={{ display: "flex", justifyContent: "center" }}>
@@ -258,6 +262,10 @@ const AddProductScreen = () => {
 					onChange={imageChange}
 					cols={20}
 				/>
+			</div>
+
+			<div>
+				<Editor editorState={editorState} onChange={setEditorState} />
 			</div>
 
 			<div className="add-product-btn-box">

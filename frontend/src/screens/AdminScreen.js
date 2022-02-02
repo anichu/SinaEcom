@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useLocation, useSearchParams } from "react-router-dom";
 import AddProductScreen from "./AddProductScreen";
 import ProductScreen from "./admin/ProductScreen";
 
 const AdminScreen = () => {
+	let search = useLocation().search;
+	search = search.split("=")[1];
+	const edit_back = search;
+	console.log("search", search);
 	const [users, setUsers] = useState(false);
 	const [products, setProducts] = useState(false);
 	const [addUsers, setAddUsers] = useState(false);
 	const [addProducts, setAddProducts] = useState(false);
 	const [showProducts, setShowProducts] = useState(false);
-	const rightSide = {
-		display: "flex",
-		justifyContent: "center",
-		flexDirection: "column",
-		alignItems: "start",
-	};
+
+	useEffect(() => {
+		if (edit_back === "edit_back") {
+			setShowProducts(true);
+		}
+	}, [edit_back]);
+
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch({ type: "PRODUCT_SINGLE_RESET" });
+	}, [dispatch]);
 	return (
 		<div className="admin-box">
 			<div className="left-side">
@@ -50,7 +61,6 @@ const AdminScreen = () => {
 						</ul>
 					</div>
 				</div>
-
 				<div>
 					<a
 						data-toggle="collapse"
@@ -108,7 +118,7 @@ const AdminScreen = () => {
 					</ul>
 				</div>
 			</div>
-			<div className="right-side" style={rightSide}>
+			<div className="right-side">
 				{addProducts && <AddProductScreen />}
 				{showProducts && <ProductScreen />}
 			</div>

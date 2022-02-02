@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Product from "./Product";
 import Loader from "./Loader";
 import Message from "./Message";
+import { PRODUCT_SINGLE_RESET } from "../constants/productConstants";
 
 const ProductList = () => {
 	const loadingStyle = {
@@ -12,12 +13,18 @@ const ProductList = () => {
 		height: "60vh",
 		alignItems: "center",
 	};
-	const dispatch = useDispatch();
-	useEffect(() => {
-		dispatch(getProduct());
-	}, [dispatch]);
 	const getProducts = useSelector((state) => state.getProducts);
 	const { loading, error, products } = getProducts;
+	const dispatch = useDispatch();
+	useEffect(() => {
+		if (!products) {
+			dispatch(getProduct());
+		}
+		dispatch({
+			type: PRODUCT_SINGLE_RESET,
+		});
+	}, [dispatch, products]);
+
 	return (
 		<>
 			{loading ? (
