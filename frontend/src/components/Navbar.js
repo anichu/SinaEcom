@@ -7,6 +7,11 @@ const Navbar = () => {
 	const dispatch = useDispatch();
 	const userSignup = useSelector((state) => state.userSignup);
 	const { userInfo } = userSignup;
+	const cart = useSelector((state) => state.cart);
+	const { cartItems } = cart;
+	const totalItems = cartItems.reduce((sum, item) => {
+		return sum + Number(item.qty);
+	}, 0);
 	const logoutHandler = () => {
 		dispatch({
 			type: USER_REGISTER_RESET,
@@ -38,15 +43,20 @@ const Navbar = () => {
 				</form>
 				<ul className="navbar-nav ml-auto">
 					<li className="nav-item">
-						<a className="nav-link" href="!#" style={{ display: "flex" }}>
+						<Link className="nav-link" to="/cart" style={{ display: "flex" }}>
 							<span className="mr-1 ml-2">
 								<i
 									className="fas fa-cart-arrow-down"
 									style={{ fontSize: "20px" }}
 								></i>
 							</span>
-							Cart
-						</a>
+							Cart{" "}
+							{Number(totalItems) !== 0 ? (
+								<span class="badge badge-danger cart-badge">{totalItems}</span>
+							) : (
+								""
+							)}
+						</Link>
 					</li>
 
 					{!userInfo ? (

@@ -17,13 +17,9 @@ import {
 export const getProduct = () => async (dispatch, getState) => {
 	try {
 		dispatch({ type: PRODUCT_REQUEST });
-		const {
-			userSignup: { userInfo },
-		} = getState();
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${userInfo.token}`,
 			},
 		};
 
@@ -50,13 +46,9 @@ export const getProduct = () => async (dispatch, getState) => {
 export const getSingleProduct = (id) => async (dispatch, getState) => {
 	try {
 		dispatch({ type: PRODUCT_SINGLE_REQUEST });
-		const {
-			userSignup: { userInfo },
-		} = getState();
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${userInfo.token}`,
 			},
 		};
 

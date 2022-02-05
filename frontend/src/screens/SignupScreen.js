@@ -90,7 +90,7 @@ const SignupScreen = () => {
 			{loading && <Loader />}
 			{error && <Message color="danger">{error}</Message>}
 			<div className="form-container">
-				<h1>Register</h1>
+				<h1 className="text-2xl uppercase py-2">Register</h1>
 				<div className={classesName}>
 					<label htmlFor="name">Your Name</label>
 					<input
@@ -98,6 +98,7 @@ const SignupScreen = () => {
 						id="name"
 						onChange={nameChange}
 						value={name}
+						className="border"
 						onBlur={nameBlurHandler}
 					/>
 					{nameIsInvalid && (
@@ -112,6 +113,7 @@ const SignupScreen = () => {
 						value={email}
 						onChange={emailChange}
 						onBlur={emailBlurHandler}
+						className="border"
 					/>
 					{emailIsInvalid && (
 						<p className="error-text">Please give correct email.</p>
@@ -125,6 +127,7 @@ const SignupScreen = () => {
 						value={password}
 						onChange={passwordChange}
 						onBlur={passwordBlurHandler}
+						className="border"
 					/>
 					{passwordIsInvalid && (
 						<p className="error-text">
@@ -140,6 +143,7 @@ const SignupScreen = () => {
 						value={confirmPassword}
 						onChange={confirmPasswordChange}
 						onBlur={confirmPasswordBlurHandler}
+						className="border"
 					/>
 					{confirmPasswordIsInvalid && (
 						<p className="error-text">
@@ -147,13 +151,16 @@ const SignupScreen = () => {
 						</p>
 					)}
 				</div>
-				<div className="form-actions">
+				<div className="form-actions pt-3">
 					<button type="submit" disabled={!formIsValid}>
 						SignUp
 					</button>
 				</div>
-				<span className="pb-2">
-					Already have an Account? <Link to="/login">Login</Link>
+				<span className="pb-2 my-2">
+					Already have an Account?{" "}
+					<Link to="/login" className=" text-indigo-500">
+						Login
+					</Link>
 				</span>
 			</div>
 		</form>

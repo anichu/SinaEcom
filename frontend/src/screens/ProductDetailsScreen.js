@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleProduct } from "../actions/productActions";
 import Loader from "../components/Loader";
@@ -10,19 +10,27 @@ import { addToCart } from "../actions/cartActions";
 
 const ProductDetailsScreen = () => {
 	const [qty, setQty] = useState(1);
+	const navigate = useNavigate();
+
 	const { id } = useParams();
+
 	const dispatch = useDispatch();
+
 	const getSingleProducts = useSelector((state) => state.getSingleProduct);
+
 	const { product, loading, error } = getSingleProducts;
+
 	useEffect(() => {
 		if (!product) {
 			dispatch(getSingleProduct(id));
 		}
 	}, [id, dispatch, product]);
+
 	const addToCartHandler = () => {
-		console.log("anis");
 		dispatch(addToCart(id, qty));
+		navigate("/");
 	};
+
 	return (
 		<>
 			{loading ? (
@@ -50,13 +58,15 @@ const ProductDetailsScreen = () => {
 								<ul class="list-group list-group-flush">
 									<li className="list-group-item">
 										{" "}
-										<h1>{product.name}</h1>
+										<h1 className="text-4xl">{product.name}</h1>
 									</li>
 									<li className="list-group-item">
-										<b> description: </b> {product.description}
+										<p>
+											<b> description: </b> {product.description}
+										</p>
 									</li>
 									<li className="list-group-item">
-										<b>price: $ {product.price}</b>
+										<b>price: ${product.price}</b>
 									</li>
 									<li className="list-group-item">
 										<Rating
@@ -81,6 +91,20 @@ const ProductDetailsScreen = () => {
 											id=""
 											value={qty}
 											onChange={(e) => setQty(e.target.value)}
+											className="
+												cursor-pointer
+												px-3
+												py-1.5
+												text-base
+												font-normal
+												text-gray-700
+												bg-white bg-clip-padding bg-no-repeat
+												border border-solid border-gray-300
+												rounded
+												transition
+												ease-in-out
+												m-0
+												focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
 										>
 											{[...Array(product.countInStock).keys()].map((x) => (
 												<option value={x + 1}>{x + 1}</option>

@@ -4,7 +4,7 @@ const Rating = ({ rating, numReviews }) => {
 	rating = Number(rating);
 	return (
 		<div className="ratingBox">
-			<span>
+			<span className="">
 				{rating >= 1 ? (
 					<img src="/images/star-filled.png" alt="" />
 				) : rating >= 0.5 ? (
