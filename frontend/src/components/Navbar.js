@@ -1,10 +1,14 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { USER_REGISTER_RESET } from "../constants/userConstants";
+import {
+	USER_LOGIN_RESET,
+	USER_REGISTER_RESET,
+} from "../constants/userConstants";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const userSignup = useSelector((state) => state.userSignup);
 	const { userInfo } = userSignup;
 	const cart = useSelector((state) => state.cart);
@@ -16,7 +20,10 @@ const Navbar = () => {
 		dispatch({
 			type: USER_REGISTER_RESET,
 		});
-		window.location.href = "/login";
+		dispatch({
+			type: USER_LOGIN_RESET,
+		});
+		navigate("/login");
 	};
 
 	return (
@@ -96,10 +103,10 @@ const Navbar = () => {
 									className="dropdown-menu"
 									aria-labelledby="navbarDropdownMenuLink"
 								>
-									<a className="dropdown-item" href="!#">
+									<Link className="dropdown-item" to="/profile">
 										<i className="fas fa-male mr-1"></i>
 										Profile
-									</a>
+									</Link>
 									<p
 										className="dropdown-item"
 										onClick={logoutHandler}

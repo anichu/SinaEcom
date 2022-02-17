@@ -51,7 +51,7 @@ const Rating = ({ rating, numReviews }) => {
 					<img src="/images/pixel-star.png" alt="" />
 				)}
 			</span>
-			<span className="ml-1">{` (${numReviews}reviews)`}</span>
+			{numReviews && <span className="ml-1">{` (${numReviews}reviews)`}</span>}
 		</div>
 	);
 };

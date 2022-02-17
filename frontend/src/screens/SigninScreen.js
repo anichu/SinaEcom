@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import {
+	Link,
+	useLocation,
+	useNavigate,
+	useSearchParams,
+} from "react-router-dom";
 import { login } from "../actions/userActions";
-import Loader from "react-spinners/RingLoader";
+import Loader from "../components/Loader";
 import Message from "../components/Message";
+import AlertMessage from "../components/Alert";
 
 const SigninScreen = () => {
 	const [email, setEmail] = useState("");
@@ -18,12 +24,19 @@ const SigninScreen = () => {
 	const userLogin = useSelector((state) => state.userLogin);
 	const { error, loading, success } = userLogin;
 	const dispatch = useDispatch();
+	const location = useLocation();
+
+	const search = location.search.split("=")[1];
+	//console.log(search);
 
 	useEffect(() => {
 		if (success) {
-			window.location.href = "/";
+			navigate("/");
 		}
-	}, [success, navigate]);
+		if (success && search) {
+			navigate("/shipping");
+		}
+	}, [success, navigate, search]);
 
 	let formIsValid = false;
 	if (emailIsValid && passwordIsValid) {
@@ -61,7 +74,11 @@ const SigninScreen = () => {
 				{loading && <Loader />}
 				<div className="form-container">
 					<h1 className="text-2xl capitalize">Login</h1>
-					{error && <Message color="danger">{error}</Message>}
+					{error && (
+						<div className="mx-5 mb-2">
+							<AlertMessage type="error">{error}</AlertMessage>
+						</div>
+					)}
 					<div className={classesName}>
 						<label htmlFor="email">Your Email</label>
 						<input
@@ -96,7 +113,11 @@ const SigninScreen = () => {
 					</div>
 
 					<div className="form-actions">
-						<button type="submit" disabled={!formIsValid}>
+						<button
+							type="submit"
+							className="btn btn-dark btn-sm mt-2"
+							disabled={!formIsValid}
+						>
 							LogIn
 						</button>
 					</div>

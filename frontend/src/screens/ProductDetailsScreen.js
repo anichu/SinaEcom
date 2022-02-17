@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingleProduct } from "../actions/productActions";
+import {
+	addProductReview,
+	getProduct,
+	getSingleProduct,
+} from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Rating from "../components/Rating";
-import "./productDetailsScreen.css";
+import { Spin } from "antd";
+import AlertMessage from "../components/Alert";
 import { addToCart } from "../actions/cartActions";
+import { ADD_PRODUCT_REVIEW_RESET } from "../constants/productConstants";
+import Time from "../components/Time";
 
 const ProductDetailsScreen = () => {
 	const [qty, setQty] = useState(1);
+	const [review, setReview] = useState("");
+	const [rating, setRating] = useState(2.5);
 	const navigate = useNavigate();
 
 	const { id } = useParams();
@@ -20,15 +29,30 @@ const ProductDetailsScreen = () => {
 
 	const { product, loading, error } = getSingleProducts;
 
+	const productReview = useSelector((state) => state.addProductReview);
+	const { loading: reviewLoading, error: reviewError, success } = productReview;
+	//console.log(reviewError);
+
 	useEffect(() => {
 		if (!product) {
 			dispatch(getSingleProduct(id));
 		}
-	}, [id, dispatch, product]);
+		if (success === true) {
+			dispatch(getSingleProduct(id));
+			dispatch({
+				type: ADD_PRODUCT_REVIEW_RESET,
+			});
+		}
+	}, [id, dispatch, success, product]);
 
 	const addToCartHandler = () => {
 		dispatch(addToCart(id, qty));
 		navigate("/");
+	};
+
+	const reviewSubmitHandler = async (e) => {
+		e.preventDefault();
+		dispatch(addProductReview(id, { rating, comment: review }));
 	};
 
 	return (
@@ -38,27 +62,31 @@ const ProductDetailsScreen = () => {
 					<Loader />
 				</div>
 			) : error ? (
-				<Message color="danger">{error}</Message>
+				<>
+					<Message color="danger">{error}</Message>
+				</>
 			) : (
 				product && (
 					<>
-						<Link to="/" className="ml-2">
+						<Link to="/" className="ml-4">
 							<i
 								class="fas fa-long-arrow-alt-left"
-								style={{ fontSize: "20" }}
+								style={{ fontSize: "20px" }}
 							></i>
 						</Link>
-						<div className="details-box">
-							<div className="left-side">
-								<div className="left-side-img">
-									<img src={product.image[0].name} alt="" />
-								</div>
+						<div className="row m-3">
+							<div className="col-lg-6">
+								<img
+									src={product.image[0].name}
+									className="img-fluid"
+									alt=""
+									style={{ height: "450px", width: "100%" }}
+								/>
 							</div>
-							<div className="middle-side">
+							<div className="col-lg-6">
 								<ul class="list-group list-group-flush">
 									<li className="list-group-item">
-										{" "}
-										<h1 className="text-4xl">{product.name}</h1>
+										<h1 className="">{product.name}</h1>
 									</li>
 									<li className="list-group-item">
 										<p>
@@ -91,20 +119,7 @@ const ProductDetailsScreen = () => {
 											id=""
 											value={qty}
 											onChange={(e) => setQty(e.target.value)}
-											className="
-												cursor-pointer
-												px-3
-												py-1.5
-												text-base
-												font-normal
-												text-gray-700
-												bg-white bg-clip-padding bg-no-repeat
-												border border-solid border-gray-300
-												rounded
-												transition
-												ease-in-out
-												m-0
-												focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+											className="px-3"
 										>
 											{[...Array(product.countInStock).keys()].map((x) => (
 												<option value={x + 1}>{x + 1}</option>
@@ -117,6 +132,102 @@ const ProductDetailsScreen = () => {
 										</button>
 									</li>
 								</ul>
+							</div>
+						</div>
+						<hr className="mt-5" />
+
+						<div className="row m-3">
+							<div className="col-lg-7">
+								{reviewLoading ? (
+									<div className="example">
+										<Spin />
+									</div>
+								) : (
+									<>
+										<h1 className="mb-0">write a customer review</h1>
+										{reviewError && (
+											<div id="review-loading-box">
+												<AlertMessage type="error">{reviewError}</AlertMessage>
+											</div>
+										)}
+										{success && (
+											<div id="review-loading-box">
+												<AlertMessage type="success">
+													<p>Review is submitted successfully</p>
+												</AlertMessage>
+											</div>
+										)}
+
+										<form action="" onSubmit={reviewSubmitHandler}>
+											<label for="rating" className="rating-label">
+												Rating:
+											</label>
+											<select
+												name="rating"
+												id="rating"
+												className="text-uppercase p-2"
+												required
+												onChange={(e) => setRating(e.target.value)}
+											>
+												<option value="3">choose your rating</option>
+												<option value="1">1-poor</option>
+												<option value="2">2-fair</option>
+												<option value="3">3-good</option>
+												<option value="4">4-very good</option>
+												<option value="5">5-excellent</option>
+											</select>
+											<div className="comment-box mt-2">
+												<textarea
+													name=""
+													id=""
+													cols="20"
+													rows="3"
+													placeholder="write a comment..."
+													required
+													className="mr-2 px-2"
+													onChange={(e) => setReview(e.target.value)}
+												></textarea>
+											</div>
+											<button
+												type="submit"
+												className="btn btn-dark btn-sm p-2 mt-2 text-uppercase"
+											>
+												review
+											</button>
+										</form>
+									</>
+								)}
+							</div>
+							<div className="col-lg-5">
+								<h1 className="text-center text-uppercase">
+									Reviews ({product.reviews.length})
+								</h1>
+								<hr />
+								<div className="show-review-box">
+									{product.reviews
+										.slice(0)
+										.reverse()
+										.map((review) => (
+											<div>
+												<div className="show-review-sub-box">
+													<div className="left-show-review">
+														<span className="review-img">
+															{review.name.substring(0, 1)}
+														</span>
+														<strong className="text-uppercase">
+															{review.name}
+														</strong>
+													</div>
+													<div className="right-show-review">
+														<Rating rating={review.rating} />
+														<p>{review.comment}</p>
+														<span>{<Time time={review.createdAt} />}</span>
+													</div>
+												</div>
+												<hr />
+											</div>
+										))}
+								</div>
 							</div>
 						</div>
 					</>

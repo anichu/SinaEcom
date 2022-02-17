@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { register } from "../actions/userActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import AlertMessage from "../components/Alert";
 
 const SignupScreen = () => {
 	const [name, setName] = useState("");
@@ -87,10 +88,14 @@ const SignupScreen = () => {
 			: "form-controls invalid";
 	return (
 		<form onSubmit={submitHandler} className="signup-box">
-			{loading && <Loader />}
-			{error && <Message color="danger">{error}</Message>}
 			<div className="form-container">
 				<h1 className="text-2xl uppercase py-2">Register</h1>
+				{loading && <Loader />}
+				{error && (
+					<div className="mx-3">
+						<AlertMessage type="error">{error}</AlertMessage>
+					</div>
+				)}
 				<div className={classesName}>
 					<label htmlFor="name">Your Name</label>
 					<input

@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Product from "./Product";
 import Loader from "./Loader";
 import Message from "./Message";
-import { PRODUCT_SINGLE_RESET } from "../constants/productConstants";
+import {
+	PRODUCT_SINGLE_RESET,
+	ADD_PRODUCT_REVIEW_RESET,
+} from "../constants/productConstants";
 
 const ProductList = () => {
 	const loadingStyle = {
@@ -22,6 +25,9 @@ const ProductList = () => {
 		}
 		dispatch({
 			type: PRODUCT_SINGLE_RESET,
+		});
+		dispatch({
+			type: ADD_PRODUCT_REVIEW_RESET,
 		});
 	}, [dispatch, products]);
 

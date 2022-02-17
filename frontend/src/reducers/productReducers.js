@@ -12,6 +12,10 @@ import {
 	EDIT_PRODUCT_REQUEST,
 	EDIT_PRODUCT_SUCCESS,
 	EDIT_PRODUCT_FAIL,
+	ADD_PRODUCT_REVIEW_FAIL,
+	ADD_PRODUCT_REVIEW_SUCCESS,
+	ADD_PRODUCT_REVIEW_REQUEST,
+	ADD_PRODUCT_REVIEW_RESET,
 } from "../constants/productConstants";
 
 export const getProductReducer = (state = { products: null }, action) => {
@@ -95,6 +99,29 @@ export const editProductReducer = (state = {}, action) => {
 				loading: false,
 				error: action.payload,
 			};
+		default:
+			return state;
+	}
+};
+
+export const addProductReviewReducer = (state = {}, action) => {
+	switch (action.type) {
+		case ADD_PRODUCT_REVIEW_REQUEST:
+			return {
+				loading: true,
+			};
+		case ADD_PRODUCT_REVIEW_SUCCESS:
+			return {
+				loading: false,
+				success: true,
+			};
+		case ADD_PRODUCT_REVIEW_FAIL:
+			return {
+				loading: false,
+				error: action.payload,
+			};
+		case ADD_PRODUCT_REVIEW_RESET:
+			return {};
 		default:
 			return state;
 	}

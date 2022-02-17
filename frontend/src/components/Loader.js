@@ -1,5 +1,5 @@
 import { useState } from "react";
-import RingLoader from "react-spinners/RingLoader";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 const Loader = () => {
 	let [loading, setLoading] = useState(true);
@@ -7,7 +7,7 @@ const Loader = () => {
 
 	return (
 		<div className="loader">
-			<RingLoader loading={loading} size={100} />
+			<ScaleLoader loading={loading} size={100} />
 		</div>
 	);
 };

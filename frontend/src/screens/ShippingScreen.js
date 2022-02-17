@@ -16,7 +16,7 @@ const ShippingScreen = () => {
 
 	useEffect(() => {
 		if (!userInfo) {
-			navigate("/login");
+			navigate("/login?cart=cart");
 		}
 		if (localStorage.getItem("shippingAddress")) {
 			const shippingAddress = JSON.parse(

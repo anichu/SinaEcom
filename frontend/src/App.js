@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
 import "./App.css";
+import "antd/dist/antd.css";
 import Navbar from "./components/Navbar";
 import SigninScreen from "./screens/SigninScreen";
 import SignupScreen from "./screens/SignupScreen";
@@ -10,6 +12,9 @@ import ProductDetailsScreen from "./screens/ProductDetailsScreen";
 import CartSreen from "./screens/CartSreen";
 import ShippingScreen from "./screens/ShippingScreen";
 import PayScreen from "./screens/PayScreen";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import { useDispatch } from "react-redux";
 
 function App() {
 	return (
@@ -41,7 +46,15 @@ function App() {
 				</Routes>
 
 				<Routes>
-					<Route exact path="/placeorder" element={<PayScreen />} />
+					<Route exact path="/profile" element={<ProfileScreen />} />
+				</Routes>
+
+				<Routes>
+					<Route
+						exact
+						path="/placeorder/:orderId"
+						element={<PlaceOrderScreen />}
+					/>
 				</Routes>
 
 				<Routes>

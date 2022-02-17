@@ -61,6 +61,10 @@ export const getProduct = asyncHandler(async (req, res) => {
 	res.json(product);
 });
 
+//@desc Update single product...
+//@route put /api/products/:id....
+//@access private/admin
+
 export const updateProduct = asyncHandler(async (req, res) => {
 	const id = req.params.id;
 	const product = await Product.findById(id);
@@ -91,22 +95,57 @@ export const updateProduct = asyncHandler(async (req, res) => {
 	product.image.pop();
 	const deleteImage = product.image[0].name;
 	const updatedProduct = await product.save();
-	console.log("image", image);
-	console.log(updatedProduct);
-	// if (image) {
-	// 	const deleteFile = "./docs/deleteme.txt";
-	// 	if (fs.existsSync(deleteImage)) {
-	// 		fs.unlink(deleteImage, (err) => {
-	// 			if (err) {
-	// 				console.log(err);
-	// 			}
-	// 			console.log("deleted");
-	// 		});
-	// 	}
-	// }
 	if (updatedProduct) {
 		res.json({
 			message: "product updated successfully😂😂😂",
 		});
 	}
 });
+
+//@desc create review product...
+//@route put /api/products/reviews/:id....
+//@access private
+
+export const createReview = async (req, res) => {
+	const { comment, rating } = req.body;
+	try {
+		const product = await Product.findById(req.params.id);
+		if (!product) {
+			throw new Error("Product is not found !");
+		}
+
+		const existReview = product.reviews.findIndex(
+			(review) => review.user.toString() === req.user._id.toString()
+		);
+		if (existReview !== -1) {
+			throw new Error("you have already reviewed this product");
+		}
+
+		let calRating =
+			Number(product.numReviews) * Number(product.rating) + Number(rating);
+		calRating = Number(calRating) / (Number(product.numReviews) + 1);
+		product.rating = calRating.toFixed(1);
+		product.numReviews = product.numReviews + 1;
+		product.reviews.push({
+			user: req.user._id,
+			comment,
+			name: req.user.name,
+			rating,
+		});
+		await product.save();
+		res.json(product);
+	} catch (err) {
+		res.status(400).json({
+			message: err.message,
+		});
+	}
+};
+
+export const getReview = async (req, res) => {
+	try {
+	} catch (err) {
+		res.status(400).json({
+			message: err.message,
+		});
+	}
+};
