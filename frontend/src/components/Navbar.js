@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { getProduct } from "../actions/productActions";
 import {
 	USER_LOGIN_RESET,
 	USER_REGISTER_RESET,
@@ -9,6 +10,7 @@ import {
 const Navbar = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const [search, setSearch] = useState("");
 	const userSignup = useSelector((state) => state.userSignup);
 	const { userInfo } = userSignup;
 	const cart = useSelector((state) => state.cart);
@@ -26,6 +28,12 @@ const Navbar = () => {
 		navigate("/login");
 	};
 
+	const submitSearchHandler = (e) => {
+		e.preventDefault();
+		if (search) {
+			navigate(`/search/${search}`);
+		}
+	};
 	return (
 		<nav className="navbar navbar-expand-lg navbar-light bg-light">
 			<Link className="navbar-brand px-2" to="/">
@@ -44,10 +52,18 @@ const Navbar = () => {
 			</button>
 
 			<div className="collapse navbar-collapse" id="navbarNavDropdown">
-				<form className="search-box">
-					<input type="search" name="" id="" placeholder="search..." />
-					<button type="">search</button>
+				<form className="search-box" onSubmit={submitSearchHandler}>
+					<input
+						type="search"
+						name=""
+						value={search}
+						onChange={(e) => setSearch(e.target.value)}
+						id=""
+						placeholder="search..."
+					/>
+					<button type="submit">search</button>
 				</form>
+
 				<ul className="navbar-nav ml-auto">
 					<li className="nav-item">
 						<Link className="nav-link" to="/cart" style={{ display: "flex" }}>

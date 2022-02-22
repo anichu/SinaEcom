@@ -78,18 +78,17 @@ export const login = (email, password) => async (dispatch) => {
 	}
 };
 
-export const updateUserAction = (name, email) => async (dispatch) => {
-	const userSignup = useSelector((state) => state.userSignup);
+export const updateUserAction = (name, email) => async (dispatch, getState) => {
 	const {
-		userInfo: { token },
-	} = userSignup;
+		userSignup: { userInfo },
+	} = getState();
 	try {
 		dispatch({ type: USER_UPDATE_REQUEST });
 
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
+				Authorization: `Bearer ${userInfo.token}`,
 			},
 		};
 
@@ -100,6 +99,11 @@ export const updateUserAction = (name, email) => async (dispatch) => {
 		);
 		dispatch({
 			type: USER_UPDATE_SUCCESS,
+			payload: data,
+		});
+
+		dispatch({
+			type: USER_REGISTER_SUCCESS,
 			payload: data,
 		});
 		localStorage.setItem("userDetails", JSON.stringify(data));

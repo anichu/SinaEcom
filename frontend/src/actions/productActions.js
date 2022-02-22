@@ -17,34 +17,35 @@ import {
 	ADD_PRODUCT_REVIEW_SUCCESS,
 } from "../constants/productConstants";
 
-export const getProduct = () => async (dispatch, getState) => {
-	try {
-		dispatch({ type: PRODUCT_REQUEST });
-		const config = {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		};
+export const getProduct =
+	(searchKeyword, pageNumber) => async (dispatch, getState) => {
+		try {
+			dispatch({ type: PRODUCT_REQUEST });
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+				},
+			};
 
-		const { data } = await axios.get(
-			"http://localhost:5000/api/products",
-			config
-		);
+			const { data } = await axios.get(
+				`http://localhost:5000/api/products?keyWord=${searchKeyword}&pageNumber=${pageNumber}`,
+				config
+			);
 
-		dispatch({
-			type: PRODUCT_SUCCESS,
-			payload: data,
-		});
-	} catch (err) {
-		dispatch({
-			type: PRODUCT_FAIL,
-			payload:
-				err.response && err.response.data.message
-					? err.response.data.message
-					: err.message,
-		});
-	}
-};
+			dispatch({
+				type: PRODUCT_SUCCESS,
+				payload: data,
+			});
+		} catch (err) {
+			dispatch({
+				type: PRODUCT_FAIL,
+				payload:
+					err.response && err.response.data.message
+						? err.response.data.message
+						: err.message,
+			});
+		}
+	};
 
 export const getSingleProduct = (id) => async (dispatch, getState) => {
 	try {

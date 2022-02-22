@@ -15,6 +15,7 @@ import PayScreen from "./screens/PayScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import { useDispatch } from "react-redux";
+import SearchScreen from "./screens/SearchScreen";
 
 function App() {
 	return (
@@ -24,6 +25,7 @@ function App() {
 				<Routes>
 					<Route exact path="/" element={<HomeScreen />} />
 				</Routes>
+
 				<Routes>
 					<Route exact path="/product/:id" element={<ProductDetailsScreen />} />
 				</Routes>
@@ -43,6 +45,14 @@ function App() {
 
 				<Routes>
 					<Route exact path="/payment" element={<PayScreen />} />
+				</Routes>
+
+				<Routes>
+					<Route
+						exact
+						path="/search/:searchProduct"
+						element={<SearchScreen />}
+					/>
 				</Routes>
 
 				<Routes>

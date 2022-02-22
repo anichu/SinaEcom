@@ -515,6 +515,38 @@ div.ant-spin.ant-spin-spinning.ant-spin-show-text {
 	width: 500px;
 	margin: auto;
 }
+.pagination-box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 10px auto;
+}
+
+.pagination-box p {
+	padding: 2px 12px;
+	font-size: 20px;
+	margin: 5px;
+	cursor: pointer;
+	transition: 0.4s;
+}
+
+.pagination-box p {
+	background-color: white;
+	color: black;
+	border: 1px solid black;
+}
+
+.pagination-box p.active {
+	background-color: #272424;
+	border: 1px solid black;
+	color: white;
+}
+
+.pagination-box p:hover {
+	background-color: #272424;
+	border: 1px solid black;
+	color: white;
+}
 
 @media (max-width: 1226px) {
 	.product-box {

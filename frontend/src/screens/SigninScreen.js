@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-	Link,
-	useLocation,
-	useNavigate,
-	useSearchParams,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { login } from "../actions/userActions";
 import Loader from "../components/Loader";
-import Message from "../components/Message";
 import AlertMessage from "../components/Alert";
 
 const SigninScreen = () => {

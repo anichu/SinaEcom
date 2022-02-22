@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { updateUserAction } from "../actions/userActions";
+import AlertMessage from "../components/Alert";
 
 const UserScreen = () => {
 	const userSignup = useSelector((state) => state.userSignup);
 	const {
 		userInfo: { name: userName, email: userEmail },
 	} = userSignup;
+
+	const updateUser = useSelector((state) => state.updateUser);
+	const {
+		success: updateSuccess,
+		error: updateError,
+		loading: updateLoading,
+	} = updateUser;
 
 	const [modalShow, setModalShow] = React.useState(false);
 	const shippingAddress = JSON.parse(localStorage.getItem("shippingAddress"));
@@ -18,6 +26,7 @@ const UserScreen = () => {
 		country: userCountry,
 		postalcode: userPostalCode,
 	} = shippingAddress;
+	const dispatch = useDispatch();
 
 	function MyVerticallyCenteredModal(props) {
 		const [email, setEmail] = useState(userEmail);
@@ -26,12 +35,19 @@ const UserScreen = () => {
 		const [address, setAddress] = useState(userAddress);
 		const [postalcode, setPostalCode] = useState(userPostalCode);
 		const [country, setCountry] = useState(userCountry);
-		const [message, setMessage] = useState("");
-		const dispatch = useDispatch();
 		const updateFormHandler = async (e) => {
 			e.preventDefault();
-			dispatch(updateUserAction(name, email));
 			props.onHide();
+			dispatch(updateUserAction(name, email));
+			localStorage.setItem(
+				"shippingAddress",
+				JSON.stringify({
+					city,
+					address,
+					postalcode,
+					country,
+				})
+			);
 		};
 		return (
 			<Modal
@@ -119,6 +135,15 @@ const UserScreen = () => {
 	return (
 		<div>
 			<h1 className="text-center mt-2">USER INFORMATION</h1>
+			{updateError && (
+				<div
+					style={{ width: "400px", textAlign: "center", margin: "auto" }}
+					className="mb-2"
+				>
+					<AlertMessage type="error">{updateError}</AlertMessage>
+				</div>
+			)}
+
 			<div className="user-information">
 				<div className="user-information-box text-capitalize">
 					<p>

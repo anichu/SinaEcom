@@ -77,6 +77,12 @@ export const updateUser = async (req, res) => {
 		}
 
 		user.name = name || user.name;
+		if (email && email !== user.email) {
+			const isExist = await User.findOne({ email });
+			if (isExist) {
+				throw new Error("Email is already exist😪😪");
+			}
+		}
 		user.email = email || user.email;
 
 		const updatedUser = await user.save();

@@ -41,11 +41,27 @@ export const createProduct = asyncHandler(async (req, res) => {
 //@access Public
 
 export const getProducts = asyncHandler(async (req, res) => {
-	const products = await Product.find()
+	const pageNumber = req.query.pageNumber;
+	const itemLimit = 8;
+	let keyWord = req.query.keyWord;
+	console.log(keyWord);
+	keyWord = keyWord
+		? {
+				name: {
+					$regex: keyWord,
+					$options: "i",
+				},
+		  }
+		: {};
+	const totalItems = await Product.countDocuments();
+	const pageSize = Math.ceil(totalItems / itemLimit);
+	const products = await Product.find({ ...keyWord })
 		.populate("user", "name")
-		.sort({ createdAt: -1 });
+		.sort({ createdAt: -1 })
+		.limit(itemLimit)
+		.skip(itemLimit * (pageNumber - 1));
 
-	res.json(products);
+	res.json({ products, pageSize, pageNumber });
 });
 
 //@desc Fetch single product...
