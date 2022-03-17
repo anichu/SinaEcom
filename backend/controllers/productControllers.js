@@ -157,10 +157,29 @@ export const createReview = async (req, res) => {
 	}
 };
 
+//@desc get review product...
+//@route put /api/products/reviews/
+//@access public
+
 export const getReview = async (req, res) => {
 	try {
 	} catch (err) {
 		res.status(400).json({
+			message: err.message,
+		});
+	}
+};
+
+//@desc get top products...
+//@route put /api/products/top/
+//@access public
+
+export const getTopProducts = async (req, res) => {
+	try {
+		const products = await Product.find().sort({ rating: -1 }).limit(5);
+		res.json(products);
+	} catch (err) {
+		res.json({
 			message: err.message,
 		});
 	}

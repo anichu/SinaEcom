@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { updateUserAction } from "../actions/userActions";
@@ -11,6 +12,7 @@ const UserScreen = () => {
 		userInfo: { name: userName, email: userEmail },
 	} = userSignup;
 
+	const navigate = useNavigate();
 	const updateUser = useSelector((state) => state.updateUser);
 	const {
 		success: updateSuccess,
@@ -28,6 +30,9 @@ const UserScreen = () => {
 	} = shippingAddress;
 	const dispatch = useDispatch();
 
+	const editPasswordHandler = () => {
+		navigate("/forgotpassword");
+	};
 	function MyVerticallyCenteredModal(props) {
 		const [email, setEmail] = useState(userEmail);
 		const [name, setName] = useState(userName);
@@ -189,7 +194,12 @@ const UserScreen = () => {
 						>
 							edit profile
 						</button>
-						<button className="btn btn-dark btn-sm mb-2">edit password</button>
+						<button
+							className="btn btn-dark btn-sm mb-2"
+							onClick={editPasswordHandler}
+						>
+							edit password
+						</button>
 					</div>
 				</div>
 			</div>

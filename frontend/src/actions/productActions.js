@@ -15,6 +15,9 @@ import {
 	ADD_PRODUCT_REVIEW_FAIL,
 	ADD_PRODUCT_REVIEW_REQUEST,
 	ADD_PRODUCT_REVIEW_SUCCESS,
+	TOP_PRODUCT_REQUEST,
+	TOP_PRODUCT_SUCCESS,
+	TOP_PRODUCT_FAIL,
 } from "../constants/productConstants";
 
 export const getProduct =
@@ -46,6 +49,35 @@ export const getProduct =
 			});
 		}
 	};
+
+export const getTopProduct = () => async (dispatch, getState) => {
+	try {
+		dispatch({ type: TOP_PRODUCT_REQUEST });
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+
+		const { data } = await axios.get(
+			`http://localhost:5000/api/products/top`,
+			config
+		);
+
+		dispatch({
+			type: TOP_PRODUCT_SUCCESS,
+			payload: data,
+		});
+	} catch (err) {
+		dispatch({
+			type: TOP_PRODUCT_FAIL,
+			payload:
+				err.response && err.response.data.message
+					? err.response.data.message
+					: err.message,
+		});
+	}
+};
 
 export const getSingleProduct = (id) => async (dispatch, getState) => {
 	try {

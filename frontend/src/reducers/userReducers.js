@@ -11,6 +11,12 @@ import {
 	USER_UPDATE_FAIL,
 	USER_UPDATE_SUCCESS,
 	USER_UPDATE_REQUEST,
+	SENT_TOKEN_FAIL,
+	SENT_TOKEN_REQUEST,
+	SENT_TOKEN_SUCCESS,
+	RESETPASSWORD_FAIL,
+	RESETPASSWORD_REQUEST,
+	RESETPASSWORD_SUCCESS,
 } from "../constants/userConstants";
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -82,6 +88,50 @@ export const userUpdateReducer = (state = {}, action) => {
 		case USER_UPDATE_RESET:
 			return {};
 
+		default:
+			return state;
+	}
+};
+
+export const sentTokenReducer = (state = {}, action) => {
+	switch (action.type) {
+		case SENT_TOKEN_REQUEST:
+			return {
+				loading: true,
+			};
+
+		case SENT_TOKEN_SUCCESS:
+			return {
+				loading: false,
+				data: action.payload,
+			};
+		case SENT_TOKEN_FAIL:
+			return {
+				loading: false,
+				error: action.payload,
+			};
+		default:
+			return state;
+	}
+};
+
+export const resetPasswordReducer = (state = {}, action) => {
+	switch (action.type) {
+		case RESETPASSWORD_REQUEST:
+			return {
+				loading: true,
+			};
+
+		case RESETPASSWORD_SUCCESS:
+			return {
+				loading: false,
+				data: action.payload,
+			};
+		case RESETPASSWORD_FAIL:
+			return {
+				loading: false,
+				error: action.payload,
+			};
 		default:
 			return state;
 	}

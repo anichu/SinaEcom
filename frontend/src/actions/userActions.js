@@ -1,6 +1,8 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
 import {
+	SENT_TOKEN_FAIL,
+	SENT_TOKEN_REQUEST,
+	SENT_TOKEN_SUCCESS,
 	USER_LOGIN_FAIL,
 	USER_LOGIN_REQUEST,
 	USER_LOGIN_SUCCESS,
@@ -10,6 +12,9 @@ import {
 	USER_UPDATE_FAIL,
 	USER_UPDATE_REQUEST,
 	USER_UPDATE_SUCCESS,
+	RESETPASSWORD_FAIL,
+	RESETPASSWORD_REQUEST,
+	RESETPASSWORD_SUCCESS,
 } from "../constants/userConstants";
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -117,3 +122,68 @@ export const updateUserAction = (name, email) => async (dispatch, getState) => {
 		});
 	}
 };
+
+export const sentTokenAction = (email) => async (dispatch, getState) => {
+	try {
+		dispatch({
+			type: SENT_TOKEN_REQUEST,
+		});
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+
+		const { data } = await axios.post(
+			"http://localhost:5000/api/users/forgotpassword",
+			{ email },
+			config
+		);
+
+		dispatch({
+			type: SENT_TOKEN_SUCCESS,
+			payload: data,
+		});
+	} catch (err) {
+		dispatch({
+			type: SENT_TOKEN_FAIL,
+			payload:
+				err.response && err.response.data.message
+					? err.response.data.message
+					: err.message,
+		});
+	}
+};
+
+export const resetPasswordAction =
+	(password, resetToken) => async (dispatch, getState) => {
+		try {
+			dispatch({
+				type: RESETPASSWORD_REQUEST,
+			});
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+				},
+			};
+
+			const { data } = await axios.post(
+				`http://localhost:5000/api/users/resetpassword/${resetToken}`,
+				{ password },
+				config
+			);
+
+			dispatch({
+				type: RESETPASSWORD_SUCCESS,
+				payload: data,
+			});
+		} catch (err) {
+			dispatch({
+				type: RESETPASSWORD_FAIL,
+				payload:
+					err.response && err.response.data.message
+						? err.response.data.message
+						: err.message,
+			});
+		}
+	};

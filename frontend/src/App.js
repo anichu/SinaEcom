@@ -16,6 +16,8 @@ import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import { useDispatch } from "react-redux";
 import SearchScreen from "./screens/SearchScreen";
+import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
+import ResestPasswordScreen from "./screens/ResestPasswordScreen";
 
 function App() {
 	return (
@@ -25,7 +27,21 @@ function App() {
 				<Routes>
 					<Route exact path="/" element={<HomeScreen />} />
 				</Routes>
+				<Routes>
+					<Route
+						exact
+						path="/forgotpassword"
+						element={<ForgotPasswordScreen />}
+					/>
+				</Routes>
 
+				<Routes>
+					<Route
+						exact
+						path="/resetpassword/:resetToken"
+						element={<ResestPasswordScreen />}
+					/>
+				</Routes>
 				<Routes>
 					<Route exact path="/product/:id" element={<ProductDetailsScreen />} />
 				</Routes>

@@ -4,6 +4,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { login } from "../actions/userActions";
 import Loader from "../components/Loader";
 import AlertMessage from "../components/Alert";
+import {
+	RESET_RESETPASSWORD,
+	RESET_SENT_TOKEN,
+} from "../constants/userConstants";
 
 const SigninScreen = () => {
 	const [email, setEmail] = useState("");
@@ -31,6 +35,11 @@ const SigninScreen = () => {
 			navigate("/shipping");
 		}
 	}, [success, navigate, search]);
+
+	useEffect(() => {
+		dispatch({ type: RESET_RESETPASSWORD });
+		dispatch({ type: RESET_SENT_TOKEN });
+	}, [dispatch]);
 
 	let formIsValid = false;
 	if (emailIsValid && passwordIsValid) {
@@ -105,20 +114,24 @@ const SigninScreen = () => {
 							</p>
 						)}
 					</div>
-
 					<div className="form-actions">
 						<button
 							type="submit"
-							className="btn btn-dark btn-sm mt-2"
+							className="btn btn-dark btn-sm mt-3"
 							disabled={!formIsValid}
 						>
 							LogIn
 						</button>
 					</div>
+
 					<span className="pb-3">
 						Create an Account{" "}
-						<Link to="/signup" className="text-indigo-500">
+						<Link to="/signup" className="mr-2 register-link">
 							Register
+						</Link>
+						or{" "}
+						<Link to="/forgotpassword" className="register-link">
+							Forget Password
 						</Link>
 					</span>
 				</div>

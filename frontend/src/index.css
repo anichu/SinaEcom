@@ -524,7 +524,7 @@ div.ant-spin.ant-spin-spinning.ant-spin-show-text {
 
 .pagination-box p {
 	padding: 2px 12px;
-	font-size: 20px;
+	font-size: 14px;
 	margin: 5px;
 	cursor: pointer;
 	transition: 0.4s;
@@ -546,6 +546,80 @@ div.ant-spin.ant-spin-spinning.ant-spin-show-text {
 	background-color: #272424;
 	border: 1px solid black;
 	color: white;
+}
+
+h1.top-rated-header,
+h1.latest-product-header {
+	font-size: 20px;
+	margin-left: 10px;
+}
+
+h1.top-rated-header {
+	margin-bottom: -20px !important;
+}
+
+.item {
+	height: 30rem;
+	min-width: 25rem;
+	padding: 40px;
+}
+
+.item img {
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	border-radius: 5px;
+}
+
+.inner-carousel {
+	display: flex;
+}
+
+.carousel {
+	cursor: grab;
+	overflow: hidden;
+}
+a.carousel-view-details {
+	margin-top: -100px !important;
+	z-index: 2;
+	color: white !important;
+	text-align: center;
+}
+
+a.register-link {
+	text-decoration: none;
+	transition: 0.2s;
+	font-weight: 600;
+}
+
+a.register-link:hover {
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+}
+
+.forgotpassword-box {
+	width: 400px;
+	margin: 100px auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.forgotpassword-box button {
+	width: 140px;
+}
+.forgotpassword-box input {
+	width: 100%;
+	text-indent: 5px;
+	padding: 3px 0;
+	border: 1px solid black;
+}
+
+.anticon svg {
+	display: inline-block;
+	text-align: right;
+	position: absolute;
+	top: 10px;
+	right: 5px;
 }
 
 @media (max-width: 1226px) {

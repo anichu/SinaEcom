@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { getProduct } from "../actions/productActions";
+import React, { useEffect } from "react";
+import { motion } from "framer-motion";
+import { getProduct, getTopProduct } from "../actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation, Link } from "react-router-dom";
 import Product from "./Product";
 import Loader from "./Loader";
 import Message from "./Message";
@@ -9,6 +9,9 @@ import {
 	PRODUCT_SINGLE_RESET,
 	ADD_PRODUCT_REVIEW_RESET,
 } from "../constants/productConstants";
+import { useState } from "react";
+import { useRef } from "react";
+import { Link } from "react-router-dom";
 
 const ProductList = () => {
 	const loadingStyle = {
@@ -18,15 +21,28 @@ const ProductList = () => {
 		alignItems: "center",
 	};
 
+	const [width, setWidth] = useState(0);
+	const carousel = useRef();
+
+	useEffect(() => {
+		setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
+		console.log(carousel.current.scrollWidth);
+	}, []);
+
 	const getProducts = useSelector((state) => state.getProducts);
 
+	const getTopProducts = useSelector((state) => state.getTopProducts);
 	const { loading, error, products } = getProducts;
-
+	const {
+		loaing: topProductLoading,
+		error: topProductsError,
+		products: topProducts,
+	} = getTopProducts;
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(getProduct("", 1));
-
+		dispatch(getTopProduct());
 		dispatch({
 			type: PRODUCT_SINGLE_RESET,
 		});
@@ -58,6 +74,40 @@ const ProductList = () => {
 				<Message color="danger">{error}</Message>
 			) : (
 				<>
+					<div>
+						<div>
+							<h1 className="top-rated-header">Top Rated Products</h1>
+							<div>
+								<motion.div ref={carousel} className="carousel">
+									<motion.div
+										drag="x"
+										dragConstraints={{ right: 0, left: -width }}
+										whileTap={{ cursor: "grabbing" }}
+										className="inner-carousel"
+									>
+										{topProducts &&
+											topProducts.map((pr) => {
+												return (
+													<div>
+														<motion.div className="item" key={pr.name}>
+															<img src={pr.image[0].name} alt="" />
+															<Link
+																to={`/product/${pr._id}`}
+																className="carousel-view-details btn btn-lg"
+															>
+																view details
+															</Link>
+														</motion.div>
+													</div>
+												);
+											})}
+									</motion.div>
+								</motion.div>
+							</div>
+						</div>
+					</div>
+
+					<h1 className="latest-product-header">Latest Products</h1>
 					<div className="product-box">
 						{products &&
 							products.products.map((product) => (
