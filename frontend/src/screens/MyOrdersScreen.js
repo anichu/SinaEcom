@@ -46,7 +46,7 @@ const MyOrdersScreen = () => {
 								<tr>
 									<td>{order._id.substring(0, 10)}</td>
 									<td>{countTotalItems(order)}</td>
-									<td>${order.totalPrice}</td>
+									<td>${order.totalPrice.toFixed(2)}</td>
 									<td>{order.createdAt.substring(0, 10)}</td>
 									<td>
 										{order.isDelivered ? (

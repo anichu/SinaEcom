@@ -14,7 +14,6 @@ import ShippingScreen from "./screens/ShippingScreen";
 import PayScreen from "./screens/PayScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import ProfileScreen from "./screens/ProfileScreen";
-import { useDispatch } from "react-redux";
 import SearchScreen from "./screens/SearchScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import ResestPasswordScreen from "./screens/ResestPasswordScreen";

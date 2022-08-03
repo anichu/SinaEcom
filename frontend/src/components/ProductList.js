@@ -114,7 +114,7 @@ const ProductList = () => {
 								<Product product={product} key={product._id} />
 							))}
 					</div>
-					<ul className="pagination-box">
+					<ul className="pagination-box my-5">
 						{numsArray.map((item) => (
 							<li>
 								<p
